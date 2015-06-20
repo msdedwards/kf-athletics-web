@@ -1,3 +1,20 @@
-<h2 id="title">Welcome to Ember.js</h2>
-
+{{#md-navbar name='Bulldogs' class='blue darken-4'}}
+  <a href="#!" class="brand-logo">Logo</a>
+  <ul class="right hide-on-med-and-down">
+    <li><a href="sass.html"><i class="mdi-action-search"></i></a></li>
+    {{#link-to 'messages' tagName='li'}}
+      <a><i class="mdi-communication-chat-bubble"></i></a>
+    {{/link-to}}
+    <li><a {{action 'login'}}><i class="mdi-navigation-arrow-forward"></i></a></li>
+  </ul>
+  <!-- {{#link-to 'navbar' tagName='li'}}
+    <a>Navbar</a>
+  {{/link-to}}
+  {{#link-to 'tabs' tagName='li'}}
+    <a>Tabs</a>
+  {{/link-to}} -->
+{{/md-navbar}}
 {{outlet}}
+
+{{!-- ember-cli-materialize modal container --}}
+{{md-modal-container}}

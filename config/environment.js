@@ -4,6 +4,8 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'kf-athletics-web',
     environment: environment,
+    contentSecurityPolicy: { 'connect-src': "'self' wss://*.firebaseio.com" },
+    firebase: 'https://radiant-inferno-9680.firebaseio.com/',
     baseURL: '/',
     locationType: 'auto',
     EmberENV: {

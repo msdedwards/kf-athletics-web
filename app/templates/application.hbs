@@ -1,19 +1,27 @@
 {{#md-navbar name='Bulldogs' class='blue darken-4'}}
-  <a href="#!" class="brand-logo">Logo</a>
-  <ul class="right hide-on-med-and-down">
-    <li><a href="sass.html"><i class="mdi-action-search"></i></a></li>
-    {{#link-to 'messages' tagName='li'}}
-      <a><i class="mdi-communication-chat-bubble"></i></a>
-    {{/link-to}}
-    <li><a {{action 'login'}}><i class="mdi-navigation-arrow-forward"></i></a></li>
-  </ul>
-  <!-- {{#link-to 'navbar' tagName='li'}}
-    <a>Navbar</a>
-  {{/link-to}}
-  {{#link-to 'tabs' tagName='li'}}
-    <a>Tabs</a>
-  {{/link-to}} -->
+    <ul class="right hide-on-med-and-down">
+        {{#if session.authed}}
+            {{#link-to 'messages' tagName='li'}}
+                <a><i class="mdi-communication-messenger"></i></a>
+            {{/link-to}}
+        {{/if}}
+        <li><a class="waves-effect waves-light modal-trigger" {{action 'toggleLoginModal'}}><i class="mdi-navigation-arrow-forward"></i></a></li>
+    </ul>
 {{/md-navbar}}
+{{#if loginModalIsOpen}}
+    {{#md-modal classNames='modal col m6 s12' action="toggleLoginModal"}}
+        <div class="modal-content">
+            <h4>Add Card</h4>
+            {{md-input value=title label="Title"}}
+            {{md-input value=body label="Body"}}
+            {{froala-editor}}
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-indigo btn-flat"{{action 'addCard'}}>add</a>
+            <a class="modal-action modal-close waves-effect waves-indigo btn-flat"{{action 'toggleLoginModal'}}>Cancel</a>
+        </div>
+    {{/md-modal}}
+{{/if}}
 {{outlet}}
 
 {{!-- ember-cli-materialize modal container --}}

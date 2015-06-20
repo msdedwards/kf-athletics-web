@@ -9,6 +9,10 @@ export default Ember.Controller.extend({
         logout: function() {
             this.get('session').logout();
             this.transitionTo('index');
+        },
+        toggleLoginModal:function()
+        {
+            this.toggleProperty('loginModalIsOpen');
         }
     }
 });

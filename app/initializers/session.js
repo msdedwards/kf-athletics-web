@@ -1,4 +1,3 @@
-/*global md5*/
 import Ember from 'ember';
 
 // Since I've defined my url in environment.js I can do this
@@ -22,12 +21,11 @@ export default {
 
               // on init try to login
               ref.onAuth(function(authData) {
-
                   // Not authenticated
                   if (!authData) {
                       this.set('authed', false);
                       this.set('authData', null);
-                      this.set('user', null);
+                      this.set('login', null);
                       return false;
                   }
 
@@ -79,54 +77,54 @@ export default {
           },
 
           // Runs after authentication
-          // It either sets a new or already exisiting user
-          afterAuthentication: function(userId) {
+          // It either sets a new or already exisiting login
+          afterAuthentication: function(loginId) {
               var _this = this;
 
-              // See if the user exists using native Firebase because of EmberFire problem with "id already in use"
-              ref.child('users').child(userId).once('value', function(snapshot) {
+              // See if the login exists using native Firebase because of EmberFire problem with "id already in use"
+              ref.child('logins').child(loginId).once('value', function(snapshot) {
                   var exists = (snapshot.val() !== null);
-                  userExistsCallback(userId, exists);
+                  loginExistsCallback(loginId, exists);
               });
 
-              // Do the right thing depending on whether the user exists
-              function userExistsCallback(userId, exists) {
+              // Do the right thing depending on whether the login exists
+              function loginExistsCallback(loginId, exists) {
                   if (exists) {
-                      _this.existingUser(userId);
+                      _this.existingLogin(loginId);
                   } else {
-                      _this.createUser(userId);
+                      _this.createLogin(loginId);
                   }
               }
           },
 
-          // Existing user
-          existingUser: function(userId) {
-              this.store.find('user', userId).then(function(user) {
-                  _this.set('user', user);
+          // Existing login
+          existingLogin: function(loginId) {
+              var _this = this;
+              store.find('login', loginId).then(function(login) {
+                  _this.set('login', login);
               }.bind(this));
           },
 
-          // Create a new user
-          createUser: function(userId) {
+          // Create a new login
+          createLogin: function(loginId) {
               var _this = this;
 
-              this.get('store').createRecord('user', {
-                  id: userId,
+              store.createRecord('login', {
+                  id: loginId,
                   provider: this.get('authData.provider'),
-                  name: this.get('authData.facebook.displayName') || this.get('authData.google.displayName'),
-                  email: this.get('authData.facebook.email') || this.get('authData.google.email'),
-                  created: new Date().getTime()
-              }).save().then(function(user){
+                  name: this.get('authData.facebook.displayName') || this.get('authData.google.displayName') || this.get('authData.twitter.displayName'),
+                  created: new Date()
+              }).save().then(function(login){
 
-                  // Proceed with the newly create user
-                  _this.set('user', user);
+                  // Proceed with the newly create login
+                  _this.set('login', login);
               });
           },
 
           // This is the last step in a successful authentication
-          // Set the user (either new or existing)
-          afterUser: function(user) {
-              this.set('user', user);
+          // Set the login (either new or existing)
+          afterLogin: function(login) {
+              this.set('login', login);
           }
       });
 

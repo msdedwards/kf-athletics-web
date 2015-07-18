@@ -1,28 +1,30 @@
-{{#md-navbar name='Bulldogs' class='blue darken-4'}}
-    <ul class="right hide-on-med-and-down">
-        {{#if session.authed}}
-            {{#link-to 'messages' tagName='li'}}
-                <a><i class="mdi-communication-messenger"></i></a>
-            {{/link-to}}
-        {{/if}}
-        <li><a class="waves-effect waves-light modal-trigger" {{action 'toggleLoginModal'}}><i class="mdi-navigation-arrow-forward"></i></a></li>
-    </ul>
-{{/md-navbar}}
-{{#if loginModalIsOpen}}
-    {{#md-modal classNames='modal col m6 s12' action="toggleLoginModal"}}
-        <div class="modal-content">
-            <h4>Add Card</h4>
-            {{md-input value=title label="Title"}}
-            {{md-input value=body label="Body"}}
-            {{froala-editor}}
-        </div>
-        <div class="modal-footer">
-            <a class="modal-action modal-close waves-effect waves-indigo btn-flat"{{action 'addCard'}}>add</a>
-            <a class="modal-action modal-close waves-effect waves-indigo btn-flat"{{action 'toggleLoginModal'}}>Cancel</a>
-        </div>
-    {{/md-modal}}
-{{/if}}
-{{outlet}}
-
-{{!-- ember-cli-materialize modal container --}}
-{{md-modal-container}}
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Bulldogs</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        {{#link-to 'sports' classNames='mdl-navigation__link'}}Sports{{/link-to}}
+        {{#link-to 'messages' classNames='mdl-navigation__link'}}Messages{{/link-to}}
+        {{#link-to 'groups' classNames='mdl-navigation__link'}}Groups{{/link-to}}
+        {{#link-to 'gallery' classNames='mdl-navigation__link'}}Gallery{{/link-to}}
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Bulldogs</span>
+    <nav class="mdl-navigation">
+      {{#link-to 'sports' classNames='mdl-navigation__link'}}Sports{{/link-to}}
+      {{#link-to 'messages' classNames='mdl-navigation__link'}}Messages{{/link-to}}
+      {{#link-to 'groups' classNames='mdl-navigation__link'}}Groups{{/link-to}}
+      {{#link-to 'gallery' classNames='mdl-navigation__link'}}Gallery{{/link-to}}
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">{{outlet}}</div>
+  </main>
+</div>
